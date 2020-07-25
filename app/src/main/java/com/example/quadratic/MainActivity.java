@@ -6,10 +6,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private TextView textViewSolutions;
+    private EditText aVariable;
+    private EditText bVariable;
+    private EditText cVariable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +21,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textViewSolutions = (TextView) findViewById(R.id.textViewSolutions);
+        aVariable = (EditText) findViewById(R.id.aVariable);
+        bVariable = (EditText) findViewById(R.id.bVariable);
+        cVariable = (EditText) findViewById(R.id.cVariable);
 
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
         View.OnClickListener calculateButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                double a = Double.parseDouble(aVariable.getText().toString());
+                double b = Double.parseDouble(bVariable.getText().toString());
+                double c = Double.parseDouble(cVariable.getText().toString());
 
+                solveQuadratic(a, b, c);
             }
         };
     }
