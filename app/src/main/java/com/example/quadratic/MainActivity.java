@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 textViewSolutions.setText("x = " + x);
                 break;
             case 2:
-                double x1 = (-b + Math.sqrt(discriminantValue)) / (2 * a);
-                double x2 = (-b - Math.sqrt(discriminantValue)) / (2 * a);
+                double x1 = (-b - Math.sqrt(discriminantValue)) / (2 * a);
+                double x2 = (-b + Math.sqrt(discriminantValue)) / (2 * a);
 
                 textViewSolutions.setText("x1 = " + x1 + " x2 = " + x2);
                 break;
