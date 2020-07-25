@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 solveQuadratic(a, b, c);
             }
         };
+
+        btnCalculate.setOnClickListener(calculateButtonListener);
     }
 
     private void solveQuadratic(double a, double b, double c) {
