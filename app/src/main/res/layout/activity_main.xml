@@ -6,32 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="32dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="b + "
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumberSigned2"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumberSigned2" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="32dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="= 0"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumberSigned3"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumberSigned3" />
-
     <EditText
-        android:id="@+id/editTextNumberSigned"
+        android:id="@+id/aVariable"
         android:layout_width="72dp"
         android:layout_height="39dp"
         android:layout_marginStart="8dp"
@@ -43,32 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextNumberSigned2"
-        android:layout_width="72dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:ems="10"
-        android:inputType="numberSigned|numberDecimal"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
-
-    <EditText
-        android:id="@+id/editTextNumberSigned3"
-        android:layout_width="72dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:ems="10"
-        android:inputType="numberSigned|numberDecimal"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
-        app:layout_constraintStart_toEndOf="@+id/textView2" />
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewA"
         android:layout_width="32dp"
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
@@ -76,11 +28,71 @@
         android:text="a² + "
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editTextNumberSigned"
-        app:layout_constraintStart_toEndOf="@+id/editTextNumberSigned" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/aVariable"
+        app:layout_constraintStart_toEndOf="@+id/aVariable" />
+
+    <EditText
+        android:id="@+id/vVariable"
+        android:layout_width="72dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:inputType="numberSigned|numberDecimal"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewA"
+        app:layout_constraintStart_toEndOf="@+id/textViewA" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewB"
+        android:layout_width="32dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="b + "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/vVariable"
+        app:layout_constraintStart_toEndOf="@+id/vVariable" />
+
+    <EditText
+        android:id="@+id/cVariable"
+        android:layout_width="72dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:ems="10"
+        android:inputType="numberSigned|numberDecimal"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewB"
+        app:layout_constraintStart_toEndOf="@+id/textViewB" />
+
+    <TextView
+        android:id="@+id/textViewC"
+        android:layout_width="32dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="= 0"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/cVariable"
+        app:layout_constraintStart_toEndOf="@+id/cVariable" />
+
+    <Button
+        android:id="@+id/calculateButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Find Solution(s)"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/aVariable"
+        app:layout_constraintTop_toBottomOf="@+id/aVariable" />
+
+    <TextView
+        android:id="@+id/textViewSolutions"
         android:layout_width="277dp"
         android:layout_height="37dp"
         android:layout_marginTop="24dp"
@@ -90,19 +102,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintStart_toStartOf="@+id/calculateButtons"
+        app:layout_constraintTop_toBottomOf="@+id/calculateButtons"
         tools:text="Solution" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Find Solution(s)"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextNumberSigned"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumberSigned" />
 </androidx.constraintlayout.widget.ConstraintLayout>
