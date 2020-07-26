@@ -9,11 +9,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 public class MainActivity extends AppCompatActivity {
     private TextView textViewSolutions;
     private EditText aVariable;
     private EditText bVariable;
     private EditText cVariable;
+    private GraphView graph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,29 @@ public class MainActivity extends AppCompatActivity {
         aVariable = (EditText) findViewById(R.id.aVariable);
         bVariable = (EditText) findViewById(R.id.bVariable);
         cVariable = (EditText) findViewById(R.id.cVariable);
+
+        graph = (GraphView) findViewById(R.id.graph);
+
+        double a = 1;
+        double b = 1;
+        double c = 1;
+
+        DataPoint[] points = new DataPoint[200];
+        for (int i = 0; i < points.length; i++) {
+            points[i] = new DataPoint(i - 99, (a*i*i) + (b*i) + (c));
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(-2000);
+        graph.getViewport().setMaxX(2000);
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-20000);
+        graph.getViewport().setMaxY(20000);
+
+        graph.addSeries(series);
 
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
