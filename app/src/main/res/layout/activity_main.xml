@@ -12,7 +12,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="numberSigned|numberDecimal"
         android:textStyle="bold"
@@ -73,7 +73,7 @@
         android:layout_height="38dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="= 0"
+        android:text="= y"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/cVariable"
@@ -83,7 +83,7 @@
         android:id="@+id/btnCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="Find Solution(s)"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,18 +92,33 @@
         app:layout_constraintTop_toBottomOf="@+id/aVariable" />
 
     <TextView
-        android:id="@+id/textViewSolutions"
-        android:layout_width="277dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/textViewXAxisIntersections"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="8sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/btnCalculate"
         app:layout_constraintTop_toBottomOf="@+id/btnCalculate"
+        tools:text="Solution" />
+
+    <TextView
+        android:id="@+id/textViewMinimumMaximumPoints"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewXAxisIntersections"
+        app:layout_constraintTop_toBottomOf="@+id/textViewXAxisIntersections"
         tools:text="Solution" />
 
     <com.jjoe64.graphview.GraphView
@@ -112,14 +127,15 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textViewSolutions"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSolutions"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textViewMinimumMaximumPoints"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMinimumMaximumPoints"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

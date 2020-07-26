@@ -14,7 +14,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView textViewSolutions;
+    private TextView textViewXAxisIntersections;
+    private TextView textViewMinimumMaximumPoints;
     private EditText aVariable;
     private EditText bVariable;
     private EditText cVariable;
@@ -25,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textViewSolutions = (TextView) findViewById(R.id.textViewSolutions);
+        textViewXAxisIntersections = (TextView) findViewById(R.id.textViewXAxisIntersections);
+        textViewMinimumMaximumPoints = (TextView) findViewById(R.id.textViewMinimumMaximumPoints);
         aVariable = (EditText) findViewById(R.id.aVariable);
         bVariable = (EditText) findViewById(R.id.bVariable);
         cVariable = (EditText) findViewById(R.id.cVariable);
@@ -48,29 +50,53 @@ public class MainActivity extends AppCompatActivity {
         btnCalculate.setOnClickListener(calculateButtonListener);
     }
 
+    @SuppressLint("SetTextI18n")
     private void solveQuadratic(double a, double b, double c) {
         double discriminantValue = calculateDiscriminantValue(a, b, c);
         int numberOfRealSolutions = numberOfRealSolutions(discriminantValue);
 
         switch (numberOfRealSolutions) {
             case 0:
-                textViewSolutions.setText("No real solution!");
+                textViewXAxisIntersections.setText("No real solution!");
+                textViewMinimumMaximumPoints.setText("No minimum/maximum!");
                 drawQuadraticGraph(a, b, c);
                 break;
             case 1:
-                double x = (-b + Math.sqrt(discriminantValue)) / (2 * a);
-                textViewSolutions.setText("x = " + x);
+                double x = roundNumber((-b) - Math.sqrt((b * b) - (4 * a * c)) / (2 * a), 4);
+
+                double minMaxX = findMinMaxX(a, b);
+                double minMaxY = findYPointOnQuadratic(minMaxX, a, b, c);
+                minMaxX = roundNumber(minMaxX, 4);
+                minMaxY = roundNumber(minMaxY, 4);
+
+                textViewXAxisIntersections.setText("X axis intersections: x1 = (" + x + ",0)");
+                textViewMinimumMaximumPoints.setText("Min/Max Point (" + minMaxX + "," + minMaxY + ")");
+
                 drawQuadraticGraph(a, b, c);
+
                 break;
             case 2:
-                double x1 = (-b - Math.sqrt(discriminantValue)) / (2 * a);
-                double x2 = (-b + Math.sqrt(discriminantValue)) / (2 * a);
+                double x1 = roundNumber(((-b) - Math.sqrt(discriminantValue)) / (2.0 * a), 4);
+                double x2 = roundNumber(((-b) + Math.sqrt(discriminantValue)) / (2.0 * a), 4);
 
-                double minmaxy = findMinMaxY(a, b);
-                textViewSolutions.setText("x1 = " + x1 + " x2 = " + x2 + " " + minmaxy);
+                double minMaxX2 = findMinMaxX(a, b);
+                double minMaxY2 = findYPointOnQuadratic(minMaxX2, a, b, c);
+                minMaxX2 = roundNumber(minMaxX2, 4);
+                minMaxY2 = roundNumber(minMaxY2, 4);
+
+                textViewXAxisIntersections.setText("X axis intersections: x1 = (" + x1 + ",0) x2 = (" + x2 + ",0)");
+                textViewMinimumMaximumPoints.setText("Min/Max Point (" + minMaxX2 + "," + minMaxY2 + ")");
+
                 drawQuadraticGraph(a, b, c);
                 break;
         }
+    }
+
+    private double roundNumber(double n, int decimalPlaces) {
+        if (decimalPlaces != 0) { //TODO Handle negative dp.
+            return Math.round(n*(10 * decimalPlaces)) / (10.0 * decimalPlaces);
+        }
+        return Math.round(n);
     }
 
     private double calculateDiscriminantValue(double a, double b, double c) {
@@ -88,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int numberOfRealSolutions(double a, double b, double c) {
-        double discriminantValue = (b * b) - (4 * a * c);
+        double discriminantValue = b * b - 4 * a * c;
         if (discriminantValue > 0) {
             return 2;
         } else if (discriminantValue < 0) {
@@ -119,7 +145,11 @@ public class MainActivity extends AppCompatActivity {
         graph.addSeries(series);
     }
 
-    private double findMinMaxY(double a, double b) {
-        return -((b / 2) / a);
+    private double findMinMaxX(double a, double b) {
+        return -b / (2 * a);
+    }
+
+    private double findYPointOnQuadratic(double x, double a, double b, double c) {
+        return (a * x * x) + (b * x) + c;
     }
 }
