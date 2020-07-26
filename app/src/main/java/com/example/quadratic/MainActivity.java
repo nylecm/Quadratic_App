@@ -33,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.graph);
 
         double a = 1;
-        double b = 1;
-        double c = 1;
+        double b = -8;
+        double c = 12;
 
-        DataPoint[] points = new DataPoint[200];
+        DataPoint[] points = new DataPoint[500];
         for (int i = 0; i < points.length; i++) {
-            points[i] = new DataPoint(i - 99, (a*i*i) + (b*i) + (c));
+            int x = i - 250;
+            points[i] = new DataPoint(x, (a*x*x) + (b*x) + (c));
         }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
