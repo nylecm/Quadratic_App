@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         double a = 1;
         double b = -8;
-        double c = 12;
+        double c = -3;
 
         DataPoint[] points = new DataPoint[500];
         for (int i = 0; i < points.length; i++) {
@@ -45,12 +45,12 @@ public class MainActivity extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
 
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(-2000);
-        graph.getViewport().setMaxX(2000);
+        graph.getViewport().setMinX(-20);
+        graph.getViewport().setMaxX(20);
 
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-20000);
-        graph.getViewport().setMaxY(20000);
+        graph.getViewport().setMinY(-20);
+        graph.getViewport().setMaxY(20);
 
         graph.addSeries(series);
 
