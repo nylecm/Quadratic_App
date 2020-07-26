@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity {
                 double x1 = (-b - Math.sqrt(discriminantValue)) / (2 * a);
                 double x2 = (-b + Math.sqrt(discriminantValue)) / (2 * a);
 
-                textViewSolutions.setText("x1 = " + x1 + " x2 = " + x2);
+                double minmaxy = findMinMaxY(a, b);
+                textViewSolutions.setText("x1 = " + x1 + " x2 = " + x2 + " " + minmaxy);
                 drawQuadraticGraph(a, b, c);
                 break;
         }
@@ -98,9 +99,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void drawQuadraticGraph(double a, double b, double c) {
-        DataPoint[] points = new DataPoint[501];
+        DataPoint[] points = new DataPoint[5001];
+
         for (int i = 0; i < points.length; i++) {
-            int x = i - 250;
+            double x = (i - 2500) / 10.0;
             points[i] = new DataPoint(x, (a*x*x) + (b*x) + (c));
         }
 
@@ -115,5 +117,9 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setMaxY(20);
 
         graph.addSeries(series);
+    }
+
+    private double findMinMaxY(double a, double b) {
+        return -((b / 2) / a);
     }
 }
