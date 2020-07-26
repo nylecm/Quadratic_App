@@ -32,28 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         graph = (GraphView) findViewById(R.id.graph);
 
-        double a = 1;
-        double b = -8;
-        double c = -3;
-
-        DataPoint[] points = new DataPoint[500];
-        for (int i = 0; i < points.length; i++) {
-            int x = i - 250;
-            points[i] = new DataPoint(x, (a*x*x) + (b*x) + (c));
-        }
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
-
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(-20);
-        graph.getViewport().setMaxX(20);
-
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-20);
-        graph.getViewport().setMaxY(20);
-
-        graph.addSeries(series);
-
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
         View.OnClickListener calculateButtonListener = new View.OnClickListener() {
@@ -77,17 +55,19 @@ public class MainActivity extends AppCompatActivity {
         switch (numberOfRealSolutions) {
             case 0:
                 textViewSolutions.setText("No real solution!");
+                drawQuadraticGraph(a, b, c);
                 break;
             case 1:
                 double x = (-b + Math.sqrt(discriminantValue)) / (2 * a);
-
                 textViewSolutions.setText("x = " + x);
+                drawQuadraticGraph(a, b, c);
                 break;
             case 2:
                 double x1 = (-b - Math.sqrt(discriminantValue)) / (2 * a);
                 double x2 = (-b + Math.sqrt(discriminantValue)) / (2 * a);
 
                 textViewSolutions.setText("x1 = " + x1 + " x2 = " + x2);
+                drawQuadraticGraph(a, b, c);
                 break;
         }
     }
@@ -115,5 +95,25 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return 1;
         }
+    }
+
+    private void drawQuadraticGraph(double a, double b, double c) {
+        DataPoint[] points = new DataPoint[501];
+        for (int i = 0; i < points.length; i++) {
+            int x = i - 250;
+            points[i] = new DataPoint(x, (a*x*x) + (b*x) + (c));
+        }
+
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(-20);
+        graph.getViewport().setMaxX(20);
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-20);
+        graph.getViewport().setMaxY(20);
+
+        graph.addSeries(series);
     }
 }
