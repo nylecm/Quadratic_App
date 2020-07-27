@@ -12,8 +12,7 @@ public class Stack<T> {
     }
 
     public void push(T e) {
-        Link<T> newHead = new Link<T>(e, head);
-        head = newHead;
+        head = new Link<T>(e, head);
         if (tail == null) {
             tail = head;
         }
