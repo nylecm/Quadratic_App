@@ -50,30 +50,18 @@ public class MainActivity extends AppCompatActivity {
         };
 
         Button btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
-
-        View.OnClickListener zoomInListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                zoomIn();
-            }
-        };
-
+        View.OnClickListener zoomInListener = (view) -> zoomIn();
         btnZoomIn.setOnClickListener(zoomInListener);
 
         Button btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
-
-        View.OnClickListener zoomOutListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                zoomOut();
-            }
-        };
-
+        View.OnClickListener zoomOutListener = (view) -> zoomOut();
         btnZoomOut.setOnClickListener(zoomOutListener);
 
         Button btnUndo = (Button) findViewById(R.id.btnUndo);
+        View.OnClickListener undoListener = (view) -> undo();
 
         Button btnRedo = (Button) findViewById(R.id.btnRedo);
+        View.OnClickListener redoListener = (view) ->redo();
 
         btnCalculate.setOnClickListener(calculateButtonListener);
     }
@@ -192,7 +180,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void zoomIn() {
-        //Add code to prevent over-zooming.
+        //TODO Add code to prevent over-zooming.
+
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinX(graph.getViewport().getMinX(false) + 10);
         graph.getViewport().setMaxX(graph.getViewport().getMaxX(false) - 10);
@@ -200,5 +189,14 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setMinY(graph.getViewport().getMinY(false) + 10);
         graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) - 10);
+    }
+
+    private void undo() {
+        //TODO
+    }
+
+
+    private void redo() {
+        //TODO
     }
 }
