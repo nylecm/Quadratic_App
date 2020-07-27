@@ -13,6 +13,9 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+/**
+ *
+ */
 public class MainActivity extends AppCompatActivity {
     private TextView textViewXAxisIntersections;
     private TextView textViewMinimumMaximumPoints;
@@ -21,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText cVariable;
     private GraphView graph;
 
+    /**
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
     private double roundNumber(double n, int decimalPlaces) {
         if (decimalPlaces != 0) { //TODO Handle negative dp.
             return Math.round(n*(10 * decimalPlaces)) / (10.0 * decimalPlaces);
