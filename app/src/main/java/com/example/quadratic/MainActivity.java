@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         graph = (GraphView) findViewById(R.id.graph);
 
-        graph.getViewport().setScalable(true);
-        graph.getViewport().setScalableY(true);
+        graph.getViewport().setScrollable(true);
 
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
@@ -49,6 +48,32 @@ public class MainActivity extends AppCompatActivity {
                 solveQuadratic(a, b, c);
             }
         };
+
+        Button btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
+
+        View.OnClickListener zoomInListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                zoomIn();
+            }
+        };
+
+        btnZoomIn.setOnClickListener(zoomInListener);
+
+        Button btnZoomOut = (Button) findViewById(R.id.btnZoomOut);
+
+        View.OnClickListener zoomOutListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                zoomOut();
+            }
+        };
+
+        btnZoomOut.setOnClickListener(zoomOutListener);
+
+        Button btnUndo = (Button) findViewById(R.id.btnUndo);
+
+        Button btnRedo = (Button) findViewById(R.id.btnRedo);
 
         btnCalculate.setOnClickListener(calculateButtonListener);
     }
@@ -154,5 +179,26 @@ public class MainActivity extends AppCompatActivity {
 
     private double findYPointOnQuadratic(double x, double a, double b, double c) {
         return (a * x * x) + (b * x) + c;
+    }
+
+    private void zoomOut() {
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(graph.getViewport().getMinX(false) - 10);
+        graph.getViewport().setMaxX(graph.getViewport().getMaxX(false) + 10);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinY(graph.getViewport().getMinY(false) - 10);
+        graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) + 10);
+    }
+
+    private void zoomIn() {
+        //Add code to prevent over-zooming.
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(graph.getViewport().getMinX(false) + 10);
+        graph.getViewport().setMaxX(graph.getViewport().getMaxX(false) - 10);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinY(graph.getViewport().getMinY(false) + 10);
+        graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) - 10);
     }
 }
