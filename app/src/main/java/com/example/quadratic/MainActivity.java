@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         graph = (GraphView) findViewById(R.id.graph);
 
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(true);
+
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
         View.OnClickListener calculateButtonListener = new View.OnClickListener() {

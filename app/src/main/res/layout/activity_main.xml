@@ -121,6 +121,41 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewXAxisIntersections"
         tools:text="Solution" />
 
+    <Button
+        android:id="@+id/btnZoomIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="+"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewMinimumMaximumPoints"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMinimumMaximumPoints" />
+
+    <Button
+        android:id="@+id/btnZoomOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnZoomIn"
+        app:layout_constraintStart_toEndOf="@+id/btnZoomIn" />
+
+    <Button
+        android:id="@+id/btnUndo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="<-"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnZoomOut"
+        app:layout_constraintStart_toEndOf="@+id/btnZoomOut" />
+
+    <Button
+        android:id="@+id/btnRedo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="->"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnUndo"
+        app:layout_constraintEnd_toEndOf="@+id/textViewC"
+        app:layout_constraintStart_toEndOf="@+id/btnUndo" />
+
     <com.jjoe64.graphview.GraphView
         android:id="@+id/graph"
         android:layout_width="match_parent"
@@ -134,8 +169,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textViewMinimumMaximumPoints"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMinimumMaximumPoints"
+        app:layout_constraintStart_toStartOf="@+id/btnZoomIn"
+        app:layout_constraintTop_toBottomOf="@+id/btnZoomIn"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
