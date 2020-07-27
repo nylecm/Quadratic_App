@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.graph);
 
         graph.getViewport().setScrollable(true);
+        graph.getViewport().setScrollableY(true);
 
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
