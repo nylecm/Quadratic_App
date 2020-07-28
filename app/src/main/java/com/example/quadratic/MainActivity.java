@@ -25,13 +25,15 @@ public class MainActivity extends AppCompatActivity {
     private GraphView graph;
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Stack<QuadraticEquation> undoStack = new Stack<>();
+        Stack<QuadraticEquation> redoStack = new Stack<>();
 
         textViewXAxisIntersections = (TextView) findViewById(R.id.textViewXAxisIntersections);
         textViewMinimumMaximumPoints = (TextView) findViewById(R.id.textViewMinimumMaximumPoints);
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScrollableY(true);
 
+
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
         View.OnClickListener calculateButtonListener = new View.OnClickListener() {
@@ -53,7 +56,12 @@ public class MainActivity extends AppCompatActivity {
                 double b = Double.parseDouble(bVariable.getText().toString());
                 double c = Double.parseDouble(cVariable.getText().toString());
 
-                solveQuadratic(a, b, c);
+                QuadraticEquation newQuadratic = new QuadraticEquation(a, b, c);
+                displayQuadratic(newQuadratic);
+
+                undoStack.push(newQuadratic);
+                undoStack.peek();
+                //TODO take from stack.
             }
         };
 
@@ -69,82 +77,20 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener undoListener = (view) -> undo();
 
         Button btnRedo = (Button) findViewById(R.id.btnRedo);
-        View.OnClickListener redoListener = (view) ->redo();
+        View.OnClickListener redoListener = (view) -> redo();
 
         btnCalculate.setOnClickListener(calculateButtonListener);
     }
 
-    @SuppressLint("SetTextI18n")
-    private void solveQuadratic(double a, double b, double c) {
-        double discriminantValue = calculateDiscriminantValue(a, b, c);
-        int numberOfRealSolutions = numberOfRealSolutions(discriminantValue);
+    private void displayQuadratic(QuadraticEquation newQuadratic) {
 
-        switch (numberOfRealSolutions) {
-            case 0:
-                textViewXAxisIntersections.setText("No real solution!");
-                textViewMinimumMaximumPoints.setText("No minimum/maximum!");
-                drawQuadraticGraph(a, b, c);
-                break;
-            case 1:
-                double x = roundNumber((-b) - Math.sqrt((b * b) - (4 * a * c)) / (2 * a), 4);
-
-                double minMaxX = findMinMaxX(a, b);
-                double minMaxY = findYPointOnQuadratic(minMaxX, a, b, c);
-                minMaxX = roundNumber(minMaxX, 4);
-                minMaxY = roundNumber(minMaxY, 4);
-
-                textViewXAxisIntersections.setText("X axis intersections: x1 = (" + x + ",0)");
-                textViewMinimumMaximumPoints.setText("Min/Max Point (" + minMaxX + "," + minMaxY + ")");
-
-                drawQuadraticGraph(a, b, c);
-
-                break;
-            case 2:
-                double x1 = roundNumber(((-b) - Math.sqrt(discriminantValue)) / (2.0 * a), 4);
-                double x2 = roundNumber(((-b) + Math.sqrt(discriminantValue)) / (2.0 * a), 4);
-
-                double minMaxX2 = findMinMaxX(a, b);
-                double minMaxY2 = findYPointOnQuadratic(minMaxX2, a, b, c);
-                minMaxX2 = roundNumber(minMaxX2, 4);
-                minMaxY2 = roundNumber(minMaxY2, 4);
-
-                textViewXAxisIntersections.setText("X axis intersections: x1 = (" + x1 + ",0) x2 = (" + x2 + ",0)");
-                textViewMinimumMaximumPoints.setText("Min/Max Point (" + minMaxX2 + "," + minMaxY2 + ")");
-
-                drawQuadraticGraph(a, b, c);
-                break;
-        }
     }
+
     private double roundNumber(double n, int decimalPlaces) {
         if (decimalPlaces != 0) { //TODO Handle negative dp.
-            return Math.round(n*(10 * decimalPlaces)) / (10.0 * decimalPlaces);
+            return Math.round(n * (10 * decimalPlaces)) / (10.0 * decimalPlaces);
         }
         return Math.round(n);
-    }
-
-    private double calculateDiscriminantValue(double a, double b, double c) {
-        return (b * b) - (4 * a * c);
-    }
-
-    private int numberOfRealSolutions(double discriminantValue) {
-        if (discriminantValue > 0) {
-            return 2;
-        } else if (discriminantValue < 0) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-    private int numberOfRealSolutions(double a, double b, double c) {
-        double discriminantValue = b * b - 4 * a * c;
-        if (discriminantValue > 0) {
-            return 2;
-        } else if (discriminantValue < 0) {
-            return 0;
-        } else {
-            return 1;
-        }
     }
 
     private void drawQuadraticGraph(double a, double b, double c) {
@@ -152,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < points.length; i++) {
             double x = (i - 2500) / 10.0;
-            points[i] = new DataPoint(x, (a*x*x) + (b*x) + (c));
+            points[i] = new DataPoint(x, (a * x * x) + (b * x) + (c));
         }
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
@@ -166,14 +112,6 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setMaxY(20);
 
         graph.addSeries(series);
-    }
-
-    private double findMinMaxX(double a, double b) {
-        return -b / (2 * a);
-    }
-
-    private double findYPointOnQuadratic(double x, double a, double b, double c) {
-        return (a * x * x) + (b * x) + c;
     }
 
     private void zoomOut() {
