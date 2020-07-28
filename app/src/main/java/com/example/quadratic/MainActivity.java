@@ -165,14 +165,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void undo() {
         if (currentEquation != null) {
-            undoStack.push(currentEquation);
+            redoStack.push(currentEquation);
         }
 
         currentEquation = undoStack.peek();
         displayEquationAndSetEditTexts(currentEquation);
         undoStack.pop();
     }
-
 
     private void redo() {
         if (currentEquation != null) {
