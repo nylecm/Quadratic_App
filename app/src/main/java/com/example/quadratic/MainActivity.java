@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText cVariable;
     private GraphView graph;
     private QuadraticEquation currentEquation;
+    private int zoomLevel = 22;
 
     /**
      * @param savedInstanceState
@@ -37,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
         Stack<QuadraticEquation> undoStack = new Stack<>();
         Stack<QuadraticEquation> redoStack = new Stack<>();
 
-        textViewXAxisIntersections = (TextView) findViewById(R.id.textViewXAxisIntersections);
-        textViewMinimumMaximumPoints = (TextView) findViewById(R.id.textViewMinimumMaximumPoints);
+        textViewXAxisIntersections =
+                (TextView) findViewById(R.id.textViewXAxisIntersections);
+        textViewMinimumMaximumPoints =
+                (TextView) findViewById(R.id.textViewMinimumMaximumPoints);
         aVariable = (EditText) findViewById(R.id.aVariable);
         bVariable = (EditText) findViewById(R.id.bVariable);
         cVariable = (EditText) findViewById(R.id.cVariable);
@@ -49,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setScrollableY(true);
 
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(-20);
-        graph.getViewport().setMaxX(20);
+        graph.getViewport().setMinX(-zoomLevel);
+        graph.getViewport().setMaxX(zoomLevel);
 
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-20);
-        graph.getViewport().setMaxY(20);
+        graph.getViewport().setMinY(-zoomLevel);
+        graph.getViewport().setMaxY(zoomLevel);
 
 
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
@@ -104,41 +107,48 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 1:
                 textViewXAxisIntersections.setText("One X axis intersection at: ("
-                        + currentEquation.getXAxisIntersection(0) + ",0)");
+                        + roundNumber(currentEquation.getXAxisIntersection(0), 4) + ",0)");
                 break;
             case 2:
                 textViewXAxisIntersections.setText("Two X axis intersections at: ("
-                        + currentEquation.getXAxisIntersection(0) + ",0) & ("
-                        + currentEquation.getXAxisIntersection(1) + ",0)");
+                        + roundNumber(currentEquation.getXAxisIntersection(0), 4) + ",0) & ("
+                        + roundNumber(currentEquation.getXAxisIntersection(1), 4) + ",0)");
                 break;
         }
         textViewMinimumMaximumPoints.setText("Min/Max Point ("
-                + currentEquation.getVertexX() + ","
-                + currentEquation.getVertexY() + ")");
+                + roundNumber(currentEquation.getVertexX(), 4) + ","
+                + roundNumber(currentEquation.getVertexY(), 4) + ")");
         graph.addSeries(currentEquation.getSeries());
 
     }
 
     private void zoomOut() {
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(graph.getViewport().getMinX(false) - 10);
-        graph.getViewport().setMaxX(graph.getViewport().getMaxX(false) + 10);
-
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinY(graph.getViewport().getMinY(false) - 10);
-        graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) + 10);
+        final int zoomFactor = -10;
+        zoom(zoomFactor);
     }
 
     private void zoomIn() {
-        //TODO Add code to prevent over-zooming.
+        final int zoomFactor = 10;
+
+        if (zoomLevel - zoomFactor > 0) {
+            zoom(zoomFactor);
+        }
+    }
+
+    /**
+     *
+     * @param zoomFactor when negative it zooms out. TODO
+     */
+    private void zoom(int zoomFactor) {
+        zoomLevel -= zoomFactor;
 
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(graph.getViewport().getMinX(false) + 10);
-        graph.getViewport().setMaxX(graph.getViewport().getMaxX(false) - 10);
+        graph.getViewport().setMinX(graph.getViewport().getMinX(false) + zoomFactor);
+        graph.getViewport().setMaxX(graph.getViewport().getMaxX(false) - zoomFactor);
 
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinY(graph.getViewport().getMinY(false) + 10);
-        graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) - 10);
+        graph.getViewport().setMinY(graph.getViewport().getMinY(false) + zoomFactor);
+        graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) - zoomFactor);
     }
 
     private void undo() {
