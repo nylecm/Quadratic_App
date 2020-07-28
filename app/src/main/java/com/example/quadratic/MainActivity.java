@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private QuadraticEquation currentEquation;
     private int zoomLevel = 22;
 
+    Stack<QuadraticEquation> undoStack = new Stack<>();
+    Stack<QuadraticEquation> redoStack = new Stack<>();
+
     /**
      * @param savedInstanceState
      */
@@ -34,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Stack<QuadraticEquation> undoStack = new Stack<>();
-        Stack<QuadraticEquation> redoStack = new Stack<>();
 
         textViewXAxisIntersections =
                 (TextView) findViewById(R.id.textViewXAxisIntersections);
@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         graph = (GraphView) findViewById(R.id.graph);
 
-        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScrollable(true); // Allows graph scrolling.
         graph.getViewport().setScrollableY(true);
 
-        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setXAxisBoundsManual(true); //Sets graph to show default range.
         graph.getViewport().setMinX(-zoomLevel);
         graph.getViewport().setMaxX(zoomLevel);
 
@@ -65,15 +65,22 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener calculateButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Pushes current equation to undo stack if one was being
+                // displayed prior.
+                if (currentEquation != null) {
+                    undoStack.push(currentEquation);
+                }
+
+                //Creation and initiation of displaying new equation:
                 double a = Double.parseDouble(aVariable.getText().toString());
                 double b = Double.parseDouble(bVariable.getText().toString());
                 double c = Double.parseDouble(cVariable.getText().toString());
 
                 currentEquation = new QuadraticEquation(a, b, c);
                 displayQuadratic(currentEquation);
-                //TODO implement stack.
             }
         };
+        btnCalculate.setOnClickListener(calculateButtonListener);
 
         Button btnZoomIn = (Button) findViewById(R.id.btnZoomIn);
         View.OnClickListener zoomInListener = (view) -> zoomIn();
@@ -85,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnUndo = (Button) findViewById(R.id.btnUndo);
         View.OnClickListener undoListener = (view) -> undo();
+        btnUndo.setOnClickListener(undoListener);
 
         Button btnRedo = (Button) findViewById(R.id.btnRedo);
         View.OnClickListener redoListener = (view) -> redo();
+        btnRedo.setOnClickListener(redoListener);
 
-        btnCalculate.setOnClickListener(calculateButtonListener);
     }
 
     private double roundNumber(double n, int decimalPlaces) {
@@ -97,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
             return Math.round(n * (10 * decimalPlaces)) / (10.0 * decimalPlaces);
         }
         return Math.round(n);
+    }
+
+    private void displayQuadraticFromActivity() {
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -152,11 +164,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void undo() {
-        //TODO
+        if (currentEquation != null) {
+            undoStack.push(currentEquation);
+        }
+
+        currentEquation = undoStack.peek();
+        displayEquationAndSetEditTexts(currentEquation);
+        undoStack.pop();
     }
 
 
     private void redo() {
-        //TODO
+        if (currentEquation != null) {
+            undoStack.push(currentEquation);
+        }
+
+        currentEquation = redoStack.peek();
+        displayEquationAndSetEditTexts(currentEquation);
+        redoStack.pop();
+    }
+
+    private void displayEquationAndSetEditTexts(QuadraticEquation equation) {
+        Double aValue = equation.getA();
+        Double bValue = equation.getB();
+        Double cValue = equation.getC();
+        aVariable.setText(aValue.toString());
+        bVariable.setText(bValue.toString());
+        cVariable.setText(cValue.toString());
+
+        displayQuadratic(equation);
     }
 }
