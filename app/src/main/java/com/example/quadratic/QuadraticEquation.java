@@ -8,10 +8,11 @@ import java.util.Arrays;
 public class QuadraticEquation {
 
     private double a, b, c;
-    private double[] xAxisIntersection; //Length 0, 1, or 2M
+    private double[] xAxisIntersections; //Length 0, 1, or 2M
     private double vertexX;
     private double vertexY;
     private LineGraphSeries<DataPoint> series;
+
 
     public QuadraticEquation(double a, double b, double c) {
         this.a = a;
@@ -23,12 +24,12 @@ public class QuadraticEquation {
     private void processQuadratic() {
         double discriminantValue = calculateDiscriminantValue(a, b, c);
         int numberOfRealSolutions = numberOfRealSolutions(discriminantValue);
-        xAxisIntersection = new double[numberOfRealSolutions];
+        xAxisIntersections = new double[numberOfRealSolutions];
 
         if (numberOfRealSolutions == 1 || numberOfRealSolutions == 2) {
-            xAxisIntersection[0] = ((-b) - Math.sqrt(discriminantValue)) / (2.0 * a);
+            xAxisIntersections[0] = ((-b) - Math.sqrt(discriminantValue)) / (2.0 * a);
             if (numberOfRealSolutions == 2) {
-                xAxisIntersection[1] = ((-b) + Math.sqrt(discriminantValue)) / (2.0 * a);
+                xAxisIntersections[1] = ((-b) + Math.sqrt(discriminantValue)) / (2.0 * a);
             }
         }
 
@@ -77,7 +78,7 @@ public class QuadraticEquation {
                 "a=" + a +
                 ", b=" + b +
                 ", c=" + c +
-                ", xAxisIntersection=" + Arrays.toString(xAxisIntersection) +
+                ", xAxisIntersection=" + Arrays.toString(xAxisIntersections) +
                 ", vertexX=" + vertexX +
                 ", vertexY=" + vertexY +
                 ", series=" + series +
@@ -103,8 +104,17 @@ public class QuadraticEquation {
         processQuadratic();
     }
 
-    public double[] getXAxisIntersection() {
-        return xAxisIntersection;
+    public double[] getXAxisIntersections() {
+        return xAxisIntersections;
+    }
+
+    public double getXAxisIntersection(int i) {
+        if (i < xAxisIntersections.length) {
+            return xAxisIntersections[i];
+        } else {
+            throw new ArrayIndexOutOfBoundsException("No data at index:" + i + "!");
+        }
+
     }
 
     public double getVertexX() {

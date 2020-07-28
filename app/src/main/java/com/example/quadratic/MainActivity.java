@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.Series;
 
 /**
  *
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText bVariable;
     private EditText cVariable;
     private GraphView graph;
+    private QuadraticEquation currentEquation;
 
     /**
      * @param savedInstanceState
@@ -46,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScrollableY(true);
 
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(-20);
+        graph.getViewport().setMaxX(20);
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-20);
+        graph.getViewport().setMaxY(20);
+
 
         Button btnCalculate = (Button) findViewById(R.id.btnCalculate);
 
@@ -56,12 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 double b = Double.parseDouble(bVariable.getText().toString());
                 double c = Double.parseDouble(cVariable.getText().toString());
 
-                QuadraticEquation newQuadratic = new QuadraticEquation(a, b, c);
-                displayQuadratic(newQuadratic);
-
-                undoStack.push(newQuadratic);
-                undoStack.peek();
-                //TODO take from stack.
+                currentEquation = new QuadraticEquation(a, b, c);
+                displayQuadratic(currentEquation);
+                //TODO implement stack.
             }
         };
 
@@ -82,10 +89,6 @@ public class MainActivity extends AppCompatActivity {
         btnCalculate.setOnClickListener(calculateButtonListener);
     }
 
-    private void displayQuadratic(QuadraticEquation newQuadratic) {
-
-    }
-
     private double roundNumber(double n, int decimalPlaces) {
         if (decimalPlaces != 0) { //TODO Handle negative dp.
             return Math.round(n * (10 * decimalPlaces)) / (10.0 * decimalPlaces);
@@ -93,25 +96,27 @@ public class MainActivity extends AppCompatActivity {
         return Math.round(n);
     }
 
-    private void drawQuadraticGraph(double a, double b, double c) {
-        DataPoint[] points = new DataPoint[5001];
-
-        for (int i = 0; i < points.length; i++) {
-            double x = (i - 2500) / 10.0;
-            points[i] = new DataPoint(x, (a * x * x) + (b * x) + (c));
+    @SuppressLint("SetTextI18n")
+    private void displayQuadratic(QuadraticEquation newQuadratic) {
+        switch (newQuadratic.getXAxisIntersections().length) {
+            case 0:
+                textViewXAxisIntersections.setText("No real solution!");
+                break;
+            case 1:
+                textViewXAxisIntersections.setText("One X axis intersection at: ("
+                        + currentEquation.getXAxisIntersection(0) + ",0)");
+                break;
+            case 2:
+                textViewXAxisIntersections.setText("Two X axis intersections at: ("
+                        + currentEquation.getXAxisIntersection(0) + ",0) & ("
+                        + currentEquation.getXAxisIntersection(1) + ",0)");
+                break;
         }
+        textViewMinimumMaximumPoints.setText("Min/Max Point ("
+                + currentEquation.getVertexX() + ","
+                + currentEquation.getVertexY() + ")");
+        graph.addSeries(currentEquation.getSeries());
 
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
-
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(-20);
-        graph.getViewport().setMaxX(20);
-
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-20);
-        graph.getViewport().setMaxY(20);
-
-        graph.addSeries(series);
     }
 
     private void zoomOut() {
