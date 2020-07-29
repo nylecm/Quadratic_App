@@ -140,15 +140,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void zoomOut() {
-        final int zoomFactor = -10;
+        int zoomFactor;
+        if (zoomLevel < 5) {
+            zoomFactor = -1;
+        } else if (zoomLevel < 20) {
+            zoomFactor = -5;
+        } else if (zoomLevel < 80) {
+            zoomFactor = -10;
+        } else if (zoomLevel < 200) {
+            zoomFactor = -20;
+        } else if (zoomLevel < 500) {
+            zoomFactor = -100;
+        } else {
+            zoomFactor = -250;
+        }
+
         zoom(zoomFactor);
     }
 
     private void zoomIn() {
-        final int zoomFactor = 10;
+        final int zoomFactor;
+
+        if (zoomLevel < 5) {
+            zoomFactor = 1;
+        } else if (zoomLevel < 20) {
+            zoomFactor = 5;
+        } else if (zoomLevel < 80) {
+            zoomFactor = 10;
+        } else if (zoomLevel < 200) {
+            zoomFactor = 20;
+        } else if (zoomLevel < 500) {
+            zoomFactor = 100;
+        } else {
+            zoomFactor = 250;
+        }
 
         if (zoomLevel - zoomFactor > 0) {
             zoom(zoomFactor);
+        } else {
+            Toast message = Toast.makeText(getApplicationContext(),
+                    "Can't zoom in more!", Toast.LENGTH_SHORT);
+            message.show();
         }
     }
 
@@ -179,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentEquation != null && !next.equals(currentEquation)) { // There is an equation being displayed.
             redoStack.push(currentEquation);
-            currentEquation = next;
             currentEquation = next;
             displayEquationAndSetEditTexts(currentEquation);
             undoStack.pop();
