@@ -162,38 +162,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void undo() { //FIXME fix unlimited undo redo problem.
-        QuadraticEquation prev = currentEquation;
-
-        if (currentEquation != null) {
-            currentEquation = prev;
-            redoStack.push(currentEquation);
-        }
+        QuadraticEquation next;
 
         try {
-            currentEquation = undoStack.peek();
+            next = undoStack.peek();
         } catch (NoSuchElementException ex) {
-            currentEquation = prev;
             return;
         }
-        displayEquationAndSetEditTexts(currentEquation);
-        undoStack.pop();
+
+        if (currentEquation != null && !next.equals(currentEquation)) { // There is an equation being displayed.
+            redoStack.push(currentEquation);
+            currentEquation = next;
+            currentEquation = next;
+            displayEquationAndSetEditTexts(currentEquation);
+            undoStack.pop();
+        }
     }
 
     private void redo() {
-        QuadraticEquation prev = currentEquation;
+        QuadraticEquation next;
+
+        try {
+            next = redoStack.peek();
+        } catch (NoSuchElementException ex) {
+            return;
+        }
 
         if (currentEquation != null) {
             undoStack.push(currentEquation);
+            currentEquation = next;
+            displayEquationAndSetEditTexts(currentEquation);
+            redoStack.pop();
         }
-
-        try {
-            currentEquation = redoStack.peek();
-        } catch (NoSuchElementException ex) {
-            currentEquation = prev;
-            return;
-        }
-        displayEquationAndSetEditTexts(currentEquation);
-        redoStack.pop();
     }
 
     @SuppressLint("SetTextI18n")
