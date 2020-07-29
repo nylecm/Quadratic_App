@@ -12,7 +12,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="numberSigned|numberDecimal"
         android:textStyle="bold"
@@ -83,7 +83,7 @@
         android:id="@+id/btnCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Find Solution(s)"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
         android:id="@+id/textViewXAxisIntersections"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:textSize="14sp"
@@ -110,7 +110,7 @@
         android:id="@+id/textViewMinimumMaximumPoints"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:textSize="14sp"
@@ -119,13 +119,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textViewXAxisIntersections"
         app:layout_constraintTop_toBottomOf="@+id/textViewXAxisIntersections"
-        tools:text="Solution" />
+        tools:text="Vertex" />
 
     <Button
         android:id="@+id/btnZoomIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="+"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/textViewMinimumMaximumPoints"
@@ -143,7 +143,7 @@
         android:id="@+id/btnUndo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\-"
+        android:text="UNDO"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnZoomOut"
         app:layout_constraintStart_toEndOf="@+id/btnZoomOut" />
 
@@ -151,7 +151,7 @@
         android:id="@+id/btnRedo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="->"
+        android:text="REDO"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnUndo"
         app:layout_constraintEnd_toEndOf="@+id/textViewC"
         app:layout_constraintStart_toEndOf="@+id/btnUndo" />
@@ -162,7 +162,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"

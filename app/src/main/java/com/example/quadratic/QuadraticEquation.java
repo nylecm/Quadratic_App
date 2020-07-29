@@ -4,6 +4,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class QuadraticEquation {
 
@@ -127,5 +128,24 @@ public class QuadraticEquation {
 
     public LineGraphSeries<DataPoint> getSeries() {
         return series;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        QuadraticEquation that = (QuadraticEquation) o;
+
+        return Double.compare(that.a, a) == 0 &&
+                Double.compare(that.b, b) == 0 &&
+                Double.compare(that.c, c) == 0 &&
+                Double.compare(that.vertexX, vertexX) == 0 &&
+                Double.compare(that.vertexY, vertexY) == 0 &&
+                Arrays.equals(xAxisIntersections, that.xAxisIntersections);
     }
 }

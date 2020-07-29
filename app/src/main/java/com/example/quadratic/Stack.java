@@ -18,7 +18,7 @@ public class Stack<T> {
         }
     }
 
-    public void pop() {
+    public void pop() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("Stack is empty, nothing to remove");
         } else {
@@ -29,7 +29,7 @@ public class Stack<T> {
         }
     }
 
-    public T peek() {
+    public T peek() throws NoSuchElementException {
         if (isEmpty()) {
             throw new NoSuchElementException("Stack is empty, peek failed.");
         }

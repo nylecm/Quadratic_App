@@ -14,6 +14,8 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.Series;
 
+import java.util.NoSuchElementException;
+
 /**
  *
  */
@@ -107,10 +109,6 @@ public class MainActivity extends AppCompatActivity {
         return Math.round(n);
     }
 
-    private void displayQuadraticFromActivity() {
-
-    }
-
     @SuppressLint("SetTextI18n")
     private void displayQuadratic(QuadraticEquation newQuadratic) {
         switch (newQuadratic.getXAxisIntersections().length) {
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      *
-     * @param zoomFactor when negative it zooms out. TODO
+     * @param zoomFactor when negative it zooms out.
      */
     private void zoom(int zoomFactor) {
         zoomLevel -= zoomFactor;
@@ -163,33 +161,46 @@ public class MainActivity extends AppCompatActivity {
         graph.getViewport().setMaxY(graph.getViewport().getMaxY(false) - zoomFactor);
     }
 
-    private void undo() {
+    private void undo() { //FIXME fix unlimited undo redo problem.
+        QuadraticEquation prev = currentEquation;
+
         if (currentEquation != null) {
+            currentEquation = prev;
             redoStack.push(currentEquation);
         }
 
-        currentEquation = undoStack.peek();
+        try {
+            currentEquation = undoStack.peek();
+        } catch (NoSuchElementException ex) {
+            currentEquation = prev;
+            return;
+        }
         displayEquationAndSetEditTexts(currentEquation);
         undoStack.pop();
     }
 
     private void redo() {
+        QuadraticEquation prev = currentEquation;
+
         if (currentEquation != null) {
             undoStack.push(currentEquation);
         }
 
-        currentEquation = redoStack.peek();
+        try {
+            currentEquation = redoStack.peek();
+        } catch (NoSuchElementException ex) {
+            currentEquation = prev;
+            return;
+        }
         displayEquationAndSetEditTexts(currentEquation);
         redoStack.pop();
     }
 
+    @SuppressLint("SetTextI18n")
     private void displayEquationAndSetEditTexts(QuadraticEquation equation) {
-        Double aValue = equation.getA();
-        Double bValue = equation.getB();
-        Double cValue = equation.getC();
-        aVariable.setText(aValue.toString());
-        bVariable.setText(bValue.toString());
-        cVariable.setText(cValue.toString());
+        aVariable.setText(Double.toString(equation.getA()));
+        bVariable.setText(Double.toString(equation.getB()));
+        cVariable.setText(Double.toString(equation.getC()));
 
         displayQuadratic(equation);
     }
