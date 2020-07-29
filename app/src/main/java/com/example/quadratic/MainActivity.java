@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
@@ -74,12 +75,18 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 //Creation and initiation of displaying new equation:
-                double a = Double.parseDouble(aVariable.getText().toString());
-                double b = Double.parseDouble(bVariable.getText().toString());
-                double c = Double.parseDouble(cVariable.getText().toString());
-
-                currentEquation = new QuadraticEquation(a, b, c);
-                displayQuadratic(currentEquation);
+                try {
+                    double a = Double.parseDouble(aVariable.getText().toString());
+                    double b = Double.parseDouble(bVariable.getText().toString());
+                    double c = Double.parseDouble(cVariable.getText().toString());
+                    currentEquation = new QuadraticEquation(a, b, c);
+                    displayQuadratic(currentEquation);
+                } catch (NumberFormatException ex) {
+                    Toast message = Toast.makeText(getApplicationContext(),
+                            "a, b, or c coefficient(s) are not correctly formatted.",
+                            Toast.LENGTH_SHORT);
+                    message.show();
+                }
             }
         };
         btnCalculate.setOnClickListener(calculateButtonListener);
